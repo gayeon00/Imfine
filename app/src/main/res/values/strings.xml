@@ -2,4 +2,8 @@
     <string name="app_name">Imfine</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="label_name">Name</string>
+    <string name="label_birthday">Birthday</string>
+    <string name="label_register">Register</string>
+    <string name="label_start">Start</string>
 </resources>
