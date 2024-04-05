@@ -76,6 +76,7 @@
 
     <Button
         android:id="@+id/btn_register"
+        android:enabled="false"
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:layout_marginBottom="30dp"
@@ -84,5 +85,17 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_error_profile_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textColor="#ffb3261e"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_profile_image"
+        tools:text="사진을 등록하세요" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
