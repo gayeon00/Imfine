@@ -11,10 +11,11 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.MutableLiveData
 import com.bumptech.glide.Glide
 import com.example.imfine.databinding.FragmentRegisterBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RegisterFragment : Fragment() {
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
@@ -22,7 +23,9 @@ class RegisterFragment : Fragment() {
 
     private val galleryLauncher =
         registerForActivityResult(ActivityResultContracts.PickVisualMedia()) {
-            registerViewModel.setImageUrl(it)
+            registerViewModel.run{
+                validateUri(it)
+            }
         }
 
     override fun onCreateView(
@@ -35,61 +38,78 @@ class RegisterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.run {
-            btnProfileImage.setOnClickListener {
-                openGalleryForImage()
-            }
 
-            updateValueOnTextChanged(editTextName, registerViewModel.name)
-            updateValueOnTextChanged(editTextBirthday, registerViewModel.birthday)
-
-
-            registerViewModel.run {
-                //register 버튼의 가용여부 판단
-                isRegisterEnabled.observe(viewLifecycleOwner) { isEnabled ->
-                    binding.btnRegister.isEnabled = isEnabled
-                }
-
-                //선택된 사진 uri 관찰하여 imagebutton에 넣어줌
-                uri.observe(viewLifecycleOwner) {
-                    if (it != null) {
-                        Glide.with(binding.btnProfileImage.context).load(it)
-                            .into(binding.btnProfileImage)
-                    }
-
-                }
-
-                // 이름과 생일 입력 필드의 유효성 검사 결과 관찰
-                nameError.observe(viewLifecycleOwner) { error ->
-                    layoutTextName.error = error
-                }
-
-                birthdayError.observe(viewLifecycleOwner) { error ->
-                    layoutTextBirthday.error = error
-                }
-
-                uriError.observe(viewLifecycleOwner) { error ->
-                    tvErrorProfileImage.text = error
-                    tvErrorProfileImage.visibility = View.VISIBLE
-                }
-            }
+            setRegisterButton()
+            setProfileImageButton()
+            setNameEditText()
+            setBirthdayEditText()
 
         }
     }
 
-    private fun updateValueOnTextChanged(
-        textView: TextView, liveData: MutableLiveData<String>
-    ) {
-        textView.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+    private fun setBirthdayEditText() {
+        binding.editTextBirthday.doOnTextChanged { text ->
+            registerViewModel.run {
+                validateBirthday(text)
             }
+        }
 
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                liveData.value = p0.toString()
+        registerViewModel.birthdayError.observe(viewLifecycleOwner) { error ->
+            binding.layoutTextBirthday.error = error
+        }
+    }
+
+    private fun setNameEditText() {
+        binding.editTextName.doOnTextChanged { text ->
+            registerViewModel.run {
+                validateName(text)
             }
+        }
 
-            override fun afterTextChanged(p0: Editable?) {
+        // 이름과 생일 입력 필드의 유효성 검사 결과 관찰
+        registerViewModel.nameError.observe(viewLifecycleOwner) { error ->
+            binding.layoutTextName.error = error
+        }
+    }
+
+    private fun setProfileImageButton() {
+        binding.btnProfileImage.setOnClickListener {
+            openGalleryForImage()
+        }
+
+        //선택된 사진 uri 관찰하여 imagebutton에 넣어줌
+        registerViewModel.uri.observe(viewLifecycleOwner) {
+            if (it != null) {
+                Glide.with(binding.btnProfileImage.context).load(it)
+                    .into(binding.btnProfileImage)
             }
+        }
 
+        registerViewModel.uriError.observe(viewLifecycleOwner) { error ->
+            binding.tvErrorProfileImage.text = error
+            binding.tvErrorProfileImage.visibility = View.VISIBLE
+        }
+
+    }
+
+
+    private fun setRegisterButton() {
+        registerViewModel.isRegisterEnabled.observe(viewLifecycleOwner) { isEnabled ->
+            binding.btnRegister.isEnabled = isEnabled
+        }
+        binding.btnRegister.setOnClickListener {
+            registerViewModel.registerUser()
+        }
+    }
+
+
+    private fun TextView.doOnTextChanged(onTextChanged: (String) -> Unit) {
+        this.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                onTextChanged(s.toString())
+            }
+            override fun afterTextChanged(s: Editable?) {}
         })
     }
 
