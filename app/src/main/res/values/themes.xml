@@ -7,8 +7,12 @@
         <item name="colorOnSurfaceVariant">@color/colorOnSurfaceVariant</item>
         <item name="android:colorBackground">@color/white</item>
         <item name="android:textColorPrimary">@color/textColorPrimary</item>
+        <item name="android:textColorSecondary">@color/textColorPrimary</item>
+        <item name="android:textColorTertiary">@color/textColorPrimary</item>
         <item name="android:fontFamily">@font/roboto</item>
         <item name="fontFamily">@font/roboto</item>
+        <item name="colorPrimaryContainer">@color/colorPrimary</item>
+        <item name="colorOnPrimaryContainer">@color/white</item>
     </style>
 
     <style name="Theme.Imfine" parent="Base.Theme.Imfine" />

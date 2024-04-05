@@ -6,4 +6,10 @@
     <string name="label_birthday">Birthday</string>
     <string name="label_register">Register</string>
     <string name="label_start">Start</string>
+    <string name="label_todo_list">TODO LIST</string>
+    <string name="label_add_task">ADD TASK</string>
+    <string name="label_date">Date</string>
+    <string name="label_add">ADD</string>
+    <string name="label_edit_task">EDIT TASK</string>
+    <string name="label_edit">EDIT</string>
 </resources>
