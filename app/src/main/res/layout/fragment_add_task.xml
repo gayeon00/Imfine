@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:paddingHorizontal="30dp"
     android:paddingTop="35dp"
-    tools:context=".AddTaskFragment" >
+    tools:context=".todolist.presentation.AddEditTodoFragment" >
 
     <TextView
         android:id="@+id/textView"

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/registerFragment">
+
+    <fragment
+        android:id="@+id/todoListFragment"
+        android:name="com.example.imfine.todolist.presentation.TodoListFragment"
+        android:label="fragment_todo_list"
+        tools:layout="@layout/fragment_todo_list" >
+        <action
+            android:id="@+id/action_todoListFragment_to_addEditTodoFragment"
+            app:destination="@id/addEditTodoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addEditTodoFragment"
+        android:name="com.example.imfine.todolist.presentation.AddEditTodoFragment"
+        android:label="fragment_add_task"
+        tools:layout="@layout/fragment_add_task" >
+        <argument
+            android:name="todoId"
+            app:argType="integer"
+            android:defaultValue="-1" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.example.imfine.auth.presentation.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" >
+        <action
+            android:id="@+id/action_registerFragment_to_registerCompleteFragment"
+            app:destination="@id/registerCompleteFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerCompleteFragment"
+        android:name="com.example.imfine.auth.presentation.RegisterCompleteFragment"
+        android:label="fragment_register_complete"
+        tools:layout="@layout/fragment_register_complete" />
+</navigation>
