@@ -65,6 +65,9 @@ dependencies {
     // Glide
     implementation("com.github.bumptech.glide:glide:4.16.0")
 
+    //DataStore
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+
     //Room
     implementation("androidx.room:room-runtime:2.6.1")
     kapt("androidx.room:room-compiler:2.6.1")

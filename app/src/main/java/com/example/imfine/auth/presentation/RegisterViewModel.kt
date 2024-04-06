@@ -5,6 +5,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.imfine.auth.data.model.Response
 import com.example.imfine.auth.domain.RegisterRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -23,6 +24,8 @@ class RegisterViewModel @Inject constructor(
     val birthdayError = MutableLiveData<String?>()
     val uriError = MutableLiveData<String?>()
 
+    val saveResult: MutableLiveData<Response<Unit>> = MutableLiveData()
+
     // '가입하기' 버튼 활성화 상태 관리
     val isRegisterEnabled = MediatorLiveData<Boolean>().apply {
         // 입력 필드의 에러 메시지 LiveData를 소스로 추가
@@ -33,7 +36,8 @@ class RegisterViewModel @Inject constructor(
 
     private fun validateForm() {
         // 모든 입력 필드가 유효할 때만 '가입하기' 버튼을 활성화
-        isRegisterEnabled.value = listOf(nameError, birthdayError, uriError).all { it.value == null }
+        isRegisterEnabled.value =
+            listOf(nameError, birthdayError, uriError).all { it.value == null }
     }
 
     fun validateName(text: String) {
@@ -44,8 +48,9 @@ class RegisterViewModel @Inject constructor(
 
     fun validateBirthday(text: String) {
         birthday.value = text
-        birthdayError.value = if (birthday.value?.matches(Regex("\\d{4}-\\d{2}-\\d{2}")) == true) null
-        else "Invalid date. Format should be YYYY-MM-DD."
+        birthdayError.value =
+            if (birthday.value?.matches(Regex("\\d{4}.\\d{2}.\\d{2}")) == true) null
+            else "Invalid date. Format should be YYYY.MM.DD."
     }
 
     fun validateUri(uri: Uri?) {
@@ -55,8 +60,9 @@ class RegisterViewModel @Inject constructor(
 
     fun registerUser() {
         viewModelScope.launch {
-            registerRepository.registerUser(name.value!!, birthday.value!!, uri.value!!)
+            val response =
+                registerRepository.registerUser(name.value!!, birthday.value!!, uri.value!!)
+            saveResult.value = response
         }
-
     }
 }

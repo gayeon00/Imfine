@@ -76,10 +76,10 @@
 
     <Button
         android:id="@+id/btn_register"
-        android:enabled="false"
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:layout_marginBottom="30dp"
+        android:enabled="false"
         android:text="@string/label_register"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintBottom_toBottomOf="parent"
