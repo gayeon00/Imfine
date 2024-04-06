@@ -32,10 +32,21 @@
         <action
             android:id="@+id/action_registerFragment_to_registerCompleteFragment"
             app:destination="@id/registerCompleteFragment" />
+        <action
+            android:id="@+id/action_registerFragment_to_todoListFragment"
+            app:destination="@id/todoListFragment"
+            app:popUpTo="@id/registerFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/registerCompleteFragment"
         android:name="com.example.imfine.auth.presentation.RegisterCompleteFragment"
         android:label="fragment_register_complete"
-        tools:layout="@layout/fragment_register_complete" />
+        tools:layout="@layout/fragment_register_complete" >
+        <action
+            android:id="@+id/action_registerCompleteFragment_to_todoListFragment"
+            app:destination="@id/todoListFragment"
+            app:popUpTo="@id/registerFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>
