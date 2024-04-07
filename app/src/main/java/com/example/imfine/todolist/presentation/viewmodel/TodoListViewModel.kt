@@ -8,6 +8,7 @@ import com.example.imfine.todolist.data.model.Todo
 import com.example.imfine.todolist.domain.TodoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,7 +22,7 @@ class TodoListViewModel @Inject constructor(
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            _todoList.postValue(todoRepository.getAllTodos())
+            _todoList.postValue(todoRepository.getAllTodos().first())
         }
     }
 

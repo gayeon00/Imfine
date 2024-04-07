@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="75dp"
-        android:hint="@string/label_name"
+        android:hint="@string/label_task"
         app:boxStrokeWidth="3dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -74,10 +74,11 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/btn_add"
+        android:id="@+id/btn_add_edit"
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:layout_marginBottom="30dp"
+        android:enabled="false"
         android:text="@string/label_add"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -93,9 +93,7 @@ class RegisterFragment : Fragment() {
 
     private fun setNameEditText() {
         binding.editTextName.doOnTextChanged { text ->
-            registerViewModel.run {
-                validateName(text)
-            }
+            registerViewModel.validateName(text)
         }
 
         // 이름과 생일 입력 필드의 유효성 검사 결과 관찰

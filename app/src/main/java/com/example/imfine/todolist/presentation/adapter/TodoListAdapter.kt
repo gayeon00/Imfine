@@ -23,7 +23,7 @@ class TodoListAdapter() :
         }
 
         private fun formatLocalDateTime(localDateTime: LocalDateTime): String {
-            val formatter = DateTimeFormatter.ofPattern("yy'’'M/dd h:mm a")
+            val formatter = DateTimeFormatter.ofPattern("yy'’' M/dd h:mm a")
             return localDateTime.format(formatter)
         }
     }
