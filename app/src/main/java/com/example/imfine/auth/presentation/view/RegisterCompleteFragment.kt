@@ -1,4 +1,4 @@
-package com.example.imfine.auth.presentation
+package com.example.imfine.auth.presentation.view
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,6 +9,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.imfine.R
+import com.example.imfine.auth.presentation.viewmodel.RegisterViewModel
 import com.example.imfine.databinding.FragmentRegisterCompleteBinding
 
 class RegisterCompleteFragment : Fragment() {

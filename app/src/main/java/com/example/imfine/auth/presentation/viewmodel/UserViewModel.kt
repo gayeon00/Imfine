@@ -1,4 +1,4 @@
-package com.example.imfine.auth.presentation
+package com.example.imfine.auth.presentation.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel

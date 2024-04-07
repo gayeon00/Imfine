@@ -1,4 +1,4 @@
-package com.example.imfine.auth.presentation
+package com.example.imfine.auth.presentation.view
 
 import android.os.Bundle
 import android.text.Editable
@@ -16,6 +16,8 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.imfine.R
 import com.example.imfine.auth.data.model.Response
+import com.example.imfine.auth.presentation.viewmodel.RegisterViewModel
+import com.example.imfine.auth.presentation.viewmodel.UserViewModel
 import com.example.imfine.databinding.FragmentRegisterBinding
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint

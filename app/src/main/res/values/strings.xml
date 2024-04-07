@@ -12,4 +12,5 @@
     <string name="label_add">ADD</string>
     <string name="label_edit_task">EDIT TASK</string>
     <string name="label_edit">EDIT</string>
+    <string name="label_no_todo">Oops! No to-dos here.\nTime to relax!</string>
 </resources>

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingHorizontal="30dp"
-    tools:context=".auth.presentation.RegisterFragment">
+    tools:context=".auth.presentation.view.RegisterFragment">
 
     <ImageButton
         android:id="@+id/btn_profile_image"

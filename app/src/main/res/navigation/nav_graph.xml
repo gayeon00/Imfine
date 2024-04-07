@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/todoListFragment"
-        android:name="com.example.imfine.todolist.presentation.TodoListFragment"
+        android:name="com.example.imfine.todolist.presentation.view.TodoListFragment"
         android:label="fragment_todo_list"
         tools:layout="@layout/fragment_todo_list" >
         <action
@@ -16,9 +16,9 @@
     </fragment>
     <fragment
         android:id="@+id/addEditTodoFragment"
-        android:name="com.example.imfine.todolist.presentation.AddEditTodoFragment"
+        android:name="com.example.imfine.todolist.presentation.view.AddEditTodoFragment"
         android:label="fragment_add_task"
-        tools:layout="@layout/fragment_add_task" >
+        tools:layout="@layout/fragment_add_edit_todo" >
         <argument
             android:name="todoId"
             app:argType="integer"
@@ -26,7 +26,7 @@
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.example.imfine.auth.presentation.RegisterFragment"
+        android:name="com.example.imfine.auth.presentation.view.RegisterFragment"
         android:label="fragment_register"
         tools:layout="@layout/fragment_register" >
         <action
@@ -40,7 +40,7 @@
     </fragment>
     <fragment
         android:id="@+id/registerCompleteFragment"
-        android:name="com.example.imfine.auth.presentation.RegisterCompleteFragment"
+        android:name="com.example.imfine.auth.presentation.view.RegisterCompleteFragment"
         android:label="fragment_register_complete"
         tools:layout="@layout/fragment_register_complete" >
         <action

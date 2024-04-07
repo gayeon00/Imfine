@@ -1,4 +1,4 @@
-package com.example.imfine.auth.presentation
+package com.example.imfine.auth.presentation.viewmodel
 
 import android.net.Uri
 import androidx.lifecycle.MediatorLiveData
