@@ -1,5 +1,6 @@
 package com.example.imfine.todolist.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,6 +18,13 @@ import javax.inject.Inject
 class TodoListViewModel @Inject constructor(
     private val todoRepository: TodoRepository
 ): ViewModel() {
+    fun removeTodo(item: Todo?) {
+        Log.d("swipe remove", "$item")
+    }
+
+    fun completeTodo(item: Todo?) {
+        Log.d("swipe complete", "$item")
+    }
 
     private val _todoList = MutableLiveData<List<Todo>>()
     val todoList : LiveData<List<Todo>> = _todoList

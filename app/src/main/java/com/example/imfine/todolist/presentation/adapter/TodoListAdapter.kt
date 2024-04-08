@@ -58,7 +58,7 @@ private class TodoDiffCallBack : DiffUtil.ItemCallback<Todo>() {
     }
 }
 
-class DividerItemDecoration(context: Context) : RecyclerView.ItemDecoration() {
+class BorderItemDecoration(context: Context) : RecyclerView.ItemDecoration() {
 
     private val dividerHeight: Int =
         context.resources.getDimensionPixelSize(R.dimen.divider_height) // 테두리 높이 지정
