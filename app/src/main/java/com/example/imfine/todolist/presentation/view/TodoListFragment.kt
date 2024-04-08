@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.imfine.R
 import com.example.imfine.databinding.FragmentTodoListBinding
+import com.example.imfine.todolist.presentation.adapter.DividerItemDecoration
 import com.example.imfine.todolist.presentation.adapter.TodoListAdapter
 import com.example.imfine.todolist.presentation.viewmodel.TodoListViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,6 +33,7 @@ class TodoListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.todoList.adapter = this.adapter
+        binding.todoList.addItemDecoration(DividerItemDecoration(requireContext()))
 
         observeTodoList()
         setAddButton()
