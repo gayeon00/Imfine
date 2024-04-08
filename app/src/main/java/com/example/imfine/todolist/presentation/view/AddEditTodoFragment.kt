@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.imfine.R
 import com.example.imfine.databinding.FragmentAddEditTodoBinding
@@ -94,7 +95,14 @@ class AddEditTodoFragment : Fragment() {
         binding.btnAddEdit.setOnClickListener {
             if (args.todoId == -1) addEditTodoViewModel.addTodo()
             else addEditTodoViewModel.editTodo()
+            //todolist 화면으로 돌아가기
+            goBackToList()
+
         }
+    }
+
+    private fun goBackToList() {
+        findNavController().popBackStack()
     }
 
     private fun observeOriginalTodo() {

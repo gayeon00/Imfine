@@ -10,11 +10,7 @@ import javax.inject.Inject
 class TodoRepositoryImpl @Inject constructor(
     private val todoDao: TodoDao
 ): TodoRepository {
-    override fun getAllTodos() = flow {
-        todoDao.getAllTodos().collect {
-            emit(it)
-        }
-    }
+    override fun getAllTodos() = todoDao.getAllTodos()
 
     override suspend fun getTodoById(id: Int): Todo {
         return todoDao.getTodoById(id)
