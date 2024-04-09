@@ -62,6 +62,14 @@ class AddEditTodoViewModel @Inject constructor(
 
     }
 
-    fun editTodo() {
+    fun updateTodo() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val newTodo = Todo(id = todo.value!!.id, task = task.value!!, dateTime = dateTime.value!!, isCompleted = todo.value!!.isCompleted)
+            todoRepository.updateTodo(newTodo)
+        }
+    }
+
+    fun setTodo(todo: Todo) {
+        _todo.value = todo
     }
 }

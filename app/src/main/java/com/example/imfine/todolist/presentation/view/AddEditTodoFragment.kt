@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -24,7 +25,7 @@ import java.time.format.DateTimeFormatter
 class AddEditTodoFragment : Fragment() {
     private var _binding: FragmentAddEditTodoBinding? = null
     private val binding get() = _binding!!
-    private val addEditTodoViewModel: AddEditTodoViewModel by viewModels()
+    private val addEditTodoViewModel: AddEditTodoViewModel by activityViewModels()
     private val args: AddEditTodoFragmentArgs by navArgs()
     private val formatter = DateTimeFormatter.ofPattern("yyyy MM/dd hh:mm a")
 
@@ -94,7 +95,7 @@ class AddEditTodoFragment : Fragment() {
         }
         binding.btnAddEdit.setOnClickListener {
             if (args.todoId == -1) addEditTodoViewModel.addTodo()
-            else addEditTodoViewModel.editTodo()
+            else addEditTodoViewModel.updateTodo()
             //todolist 화면으로 돌아가기
             goBackToList()
 

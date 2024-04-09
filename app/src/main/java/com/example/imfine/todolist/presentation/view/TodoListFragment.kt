@@ -5,12 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.example.imfine.databinding.FragmentTodoListBinding
 import com.example.imfine.todolist.presentation.adapter.BorderItemDecoration
 import com.example.imfine.todolist.presentation.adapter.TodoListAdapter
+import com.example.imfine.todolist.presentation.viewmodel.AddEditTodoViewModel
 import com.example.imfine.todolist.presentation.viewmodel.TodoListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,6 +23,7 @@ class TodoListFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val todoListViewModel: TodoListViewModel by viewModels()
+    private val addEditTodoViewModel: AddEditTodoViewModel by activityViewModels()
     private val adapter = TodoListAdapter()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,6 +48,8 @@ class TodoListFragment : Fragment() {
             override fun onItemEdited(position: Int) {
                 //go to addeditfragment as edit
                 val todo = todoListViewModel.todoList.value!![position]
+                addEditTodoViewModel.setTodo(todo)
+
                 val action = TodoListFragmentDirections.actionTodoListFragmentToAddEditTodoFragment(todo.id)
                 findNavController().navigate(action)
             }
