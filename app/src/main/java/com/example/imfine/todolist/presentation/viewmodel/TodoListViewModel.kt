@@ -9,8 +9,6 @@ import com.example.imfine.todolist.data.model.Todo
 import com.example.imfine.todolist.domain.TodoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,8 +16,8 @@ import javax.inject.Inject
 class TodoListViewModel @Inject constructor(
     private val todoRepository: TodoRepository
 ): ViewModel() {
-    fun removeTodo(item: Todo?) {
-        Log.d("swipe remove", "$item")
+    fun editTodo(item: Todo?) {
+        Log.d("swipe edit", "$item")
     }
 
     fun completeTodo(item: Todo?) {

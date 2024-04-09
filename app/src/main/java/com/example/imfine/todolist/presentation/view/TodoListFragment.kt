@@ -1,10 +1,10 @@
 package com.example.imfine.todolist.presentation.view
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -42,15 +42,15 @@ class TodoListFragment : Fragment() {
         binding.todoList.adapter = this.adapter
         binding.todoList.addItemDecoration(BorderItemDecoration(requireContext()))
         val swipeHelper = SwipeHelper(object : SwipeListener {
-            override fun onItemDeleted(position: Int) {
-                todoListViewModel.removeTodo(todoListViewModel.todoList.value!![position])
+            override fun onItemEdited(position: Int) {
+                todoListViewModel.editTodo(todoListViewModel.todoList.value!![position])
             }
 
             override fun onItemCompleted(position: Int) {
                 todoListViewModel.completeTodo(todoListViewModel.todoList.value!![position])
             }
 
-        })
+        }, requireContext())
         ItemTouchHelper(swipeHelper).attachToRecyclerView(binding.todoList)
     }
 
