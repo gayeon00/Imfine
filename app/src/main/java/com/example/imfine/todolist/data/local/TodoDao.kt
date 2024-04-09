@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TodoDao {
-    @Query("SELECT * FROM todos ORDER BY dateTime DESC")
+    @Query("SELECT * FROM todos WHERE isCompleted = 0 ORDER BY dateTime DESC")
     fun getAllTodos(): Flow<List<Todo>>
 
     @Query("SELECT * FROM todos WHERE id = :id")

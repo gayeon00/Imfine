@@ -55,7 +55,6 @@ class SwipeHelper(
         val itemHeight = itemView.bottom - itemView.top
 
         if (dX < 0) {
-            Log.d("swipe", "왼쪽")
 
             //사각형 그리기
             val background = RectF(
@@ -80,8 +79,6 @@ class SwipeHelper(
             editIcon.draw(c)
 
         } else if (dX > 0) {
-            Log.d("swipe", "오른 쪽")
-            completeIcon?.draw(c)
             val background = RectF(
                 viewHolder.itemView.left.toFloat(),
                 viewHolder.itemView.top.toFloat(),

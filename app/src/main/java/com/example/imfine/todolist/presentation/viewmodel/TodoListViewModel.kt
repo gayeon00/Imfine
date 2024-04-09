@@ -20,8 +20,11 @@ class TodoListViewModel @Inject constructor(
         Log.d("swipe edit", "$item")
     }
 
-    fun completeTodo(item: Todo?) {
-        Log.d("swipe complete", "$item")
+    fun completeTodo(item: Todo) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val todo = Todo(item.id, item.task, item.dateTime, true)
+            todoRepository.updateTodo(todo)
+        }
     }
 
     private val _todoList = MutableLiveData<List<Todo>>()

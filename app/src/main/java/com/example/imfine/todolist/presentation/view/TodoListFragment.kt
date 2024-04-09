@@ -43,7 +43,10 @@ class TodoListFragment : Fragment() {
         binding.todoList.addItemDecoration(BorderItemDecoration(requireContext()))
         val swipeHelper = SwipeHelper(object : SwipeListener {
             override fun onItemEdited(position: Int) {
-                todoListViewModel.editTodo(todoListViewModel.todoList.value!![position])
+                //go to addeditfragment as edit
+                val todo = todoListViewModel.todoList.value!![position]
+                val action = TodoListFragmentDirections.actionTodoListFragmentToAddEditTodoFragment(todo.id)
+                findNavController().navigate(action)
             }
 
             override fun onItemCompleted(position: Int) {
