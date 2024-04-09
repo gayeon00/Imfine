@@ -6,10 +6,10 @@
     android:layout_height="match_parent"
     android:paddingHorizontal="30dp"
     android:paddingTop="35dp"
-    tools:context=".todolist.presentation.AddEditTodoFragment" >
+    tools:context=".todolist.presentation.view.AddEditTodoFragment" >
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/page_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -24,11 +24,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="75dp"
-        android:hint="@string/label_name"
+        android:hint="@string/label_task"
+        android:textColorHint="@color/colorHint"
         app:boxStrokeWidth="3dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/page_title"
         app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Full">
 
         <EditText
@@ -52,6 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:hint="@string/label_date"
+        android:textColorHint="@color/colorHint"
         app:boxStrokeWidth="3dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -74,10 +76,11 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/btn_add"
+        android:id="@+id/btn_add_edit"
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:layout_marginBottom="30dp"
+        android:enabled="false"
         android:text="@string/label_add"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintBottom_toBottomOf="parent"

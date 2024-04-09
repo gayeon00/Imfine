@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingHorizontal="30dp"
-    tools:context=".auth.presentation.RegisterFragment">
+    tools:context=".auth.presentation.view.RegisterFragment">
 
     <ImageButton
         android:id="@+id/btn_profile_image"
@@ -26,6 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="75dp"
         android:hint="@string/label_name"
+        android:textColorHint="@color/colorHint"
         app:boxStrokeWidth="3dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -53,6 +54,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:hint="@string/label_birthday"
+        android:textColorHint="@color/colorHint"
         app:boxStrokeWidth="3dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
