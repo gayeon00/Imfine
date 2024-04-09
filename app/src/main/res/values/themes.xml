@@ -4,8 +4,8 @@
         <!-- Customize your light theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorOutline">@color/colorPrimary</item>
-        <item name="colorOnSurfaceVariant">@color/colorOnSurfaceVariant</item>
         <item name="android:colorBackground">@color/white</item>
+        <item name="colorSurfaceContainerHigh">@color/white</item>
         <item name="android:textColorPrimary">@color/textColorPrimary</item>
         <item name="android:textColorSecondary">@color/textColorPrimary</item>
         <item name="android:textColorTertiary">@color/textColorPrimary</item>

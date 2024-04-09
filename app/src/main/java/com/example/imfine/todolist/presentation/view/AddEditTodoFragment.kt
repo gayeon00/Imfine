@@ -53,7 +53,9 @@ class AddEditTodoFragment : Fragment() {
         //date edittext
         val datePicker =
             MaterialDatePicker.Builder.datePicker()
-                .setTitleText("Select date")
+                .setPositiveButtonText("OK")
+                .setNegativeButtonText("CANCEL")
+                .setTitleText("Select Date")
                 .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
                 .build()
 
