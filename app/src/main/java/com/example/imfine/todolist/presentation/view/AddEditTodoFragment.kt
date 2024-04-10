@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.imfine.R
@@ -40,11 +39,12 @@ class AddEditTodoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        clearTaskDate()
         addOrEdit()
 
         //task edittext
         binding.editTextTask.doOnTextChanged {
-            addEditTodoViewModel.validateTask(it)
+            addEditTodoViewModel.setTask(it)
         }
         addEditTodoViewModel.taskError.observe(viewLifecycleOwner) {
             binding.layoutTextTask.error = it
@@ -63,7 +63,7 @@ class AddEditTodoFragment : Fragment() {
             val localDate = //millis to localdate
                 Instant.ofEpochMilli(it).atZone(ZoneId.systemDefault()).toLocalDateTime()
             binding.editTextDate.setText(localDate.format(formatter))
-            addEditTodoViewModel.validateDateTime(localDate)
+            addEditTodoViewModel.setDateTime(localDate)
         }
 
         binding.editTextDate.setOnClickListener {
@@ -75,7 +75,12 @@ class AddEditTodoFragment : Fragment() {
         }
 
         //add edit button
-        observeAddEditButton()
+        setAddEditButton()
+    }
+
+    private fun clearTaskDate() {
+        addEditTodoViewModel.setInitialTask("")
+        addEditTodoViewModel.setInitialDateTime(null)
     }
 
     private fun addOrEdit() {
@@ -91,15 +96,17 @@ class AddEditTodoFragment : Fragment() {
         }
     }
 
-    private fun observeAddEditButton() {
-        addEditTodoViewModel.isAddEditEnabled.observe(viewLifecycleOwner) {
-            binding.btnAddEdit.isEnabled = it
-        }
+    private fun setAddEditButton() {
         binding.btnAddEdit.setOnClickListener {
-            if (args.todoId == -1) addEditTodoViewModel.addTodo()
-            else addEditTodoViewModel.updateTodo()
-            //todolist 화면으로 돌아가기
-            goBackToList()
+            if (args.todoId == -1) {
+                addEditTodoViewModel.addTodo {
+                    goBackToList()
+                }
+            } else {
+                addEditTodoViewModel.updateTodo {
+                    goBackToList()
+                }
+            }
 
         }
     }
@@ -111,8 +118,6 @@ class AddEditTodoFragment : Fragment() {
     private fun observeOriginalTodo() {
         addEditTodoViewModel.todo.observe(viewLifecycleOwner) {
             binding.editTextTask.setText(it.task)
-
-
             binding.editTextDate.setText(it.dateTime.format(formatter))
         }
     }
