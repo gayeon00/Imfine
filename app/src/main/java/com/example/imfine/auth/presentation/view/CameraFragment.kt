@@ -62,7 +62,7 @@ class CameraFragment : Fragment() {
         binding.btnImageCapture.setOnClickListener {
             takePhoto { bitmap ->
                 val uri = FileUtil.saveBitmapToFile(requireContext(), bitmap)
-                registerViewModel.uri.value = uri
+                registerViewModel.setUri(uri)
                 //RegisterFragment로 돌아가기
                 findNavController().popBackStack()
             }

@@ -31,7 +31,7 @@ class RegisterCompleteFragment : Fragment() {
         }
 
         registerViewModel.run{
-            uri.observe(viewLifecycleOwner) {
+            profileImageUri.observe(viewLifecycleOwner) {
                 if (it != null) {
                     Glide.with(binding.ivProfileImage.context)
                         .load(it)

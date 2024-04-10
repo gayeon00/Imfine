@@ -1,11 +1,9 @@
 package com.example.imfine.auth.presentation.view
 
-import android.graphics.ColorMatrix
-import android.graphics.ColorMatrixColorFilter
-import android.graphics.Matrix
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,8 +18,12 @@ import com.example.imfine.auth.data.model.Response
 import com.example.imfine.auth.presentation.viewmodel.RegisterViewModel
 import com.example.imfine.auth.presentation.viewmodel.UserViewModel
 import com.example.imfine.databinding.FragmentRegisterBinding
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 @AndroidEntryPoint
 class RegisterFragment : Fragment() {
@@ -29,6 +31,8 @@ class RegisterFragment : Fragment() {
     private val binding get() = _binding!!
     private val registerViewModel: RegisterViewModel by activityViewModels()
     private val userViewModel: UserViewModel by viewModels()
+
+    private val formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -74,20 +78,35 @@ class RegisterFragment : Fragment() {
     }
 
     private fun setBirthdayEditText() {
-        binding.editTextBirthday.doOnTextChanged { text ->
-            registerViewModel.run {
-                validateBirthday(text)
-            }
+        val datePicker =
+            MaterialDatePicker.Builder.datePicker()
+                .setPositiveButtonText("OK")
+                .setNegativeButtonText("CANCEL")
+                .setTitleText("Select Date")
+                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                .build()
+
+        datePicker.addOnPositiveButtonClickListener {
+            val localDate = //millis to localdate
+                Instant.ofEpochMilli(it).atZone(ZoneId.systemDefault()).toLocalDateTime()
+            binding.editTextBirthday.setText(localDate.format(formatter))
+            registerViewModel.setBirthday(binding.editTextBirthday.text.toString())
         }
 
+        binding.editTextBirthday.setOnClickListener {
+            datePicker.show(getParentFragmentManager(), "RegisterFragment")
+        }
+
+
         registerViewModel.birthdayError.observe(viewLifecycleOwner) { error ->
+            Log.d("RegisterFragment", error.toString())
             binding.layoutTextBirthday.error = error
         }
     }
 
     private fun setNameEditText() {
         binding.editTextName.doOnTextChanged { text ->
-            registerViewModel.validateName(text)
+            registerViewModel.setName(text)
         }
 
         // 이름과 생일 입력 필드의 유효성 검사 결과 관찰
@@ -102,7 +121,7 @@ class RegisterFragment : Fragment() {
         }
 
         //선택된 사진 uri 관찰하여 imagebutton에 넣어줌
-        registerViewModel.uri.observe(viewLifecycleOwner) {
+        registerViewModel.profileImageUri.observe(viewLifecycleOwner) {
             if (it != null) {
                 Glide.with(binding.btnProfileImage.context)
                     .load(it)
@@ -111,7 +130,7 @@ class RegisterFragment : Fragment() {
             }
         }
 
-        registerViewModel.uriError.observe(viewLifecycleOwner) { error ->
+        registerViewModel.profileImageUriError.observe(viewLifecycleOwner) { error ->
             binding.tvErrorProfileImage.text = error
             binding.tvErrorProfileImage.visibility = View.VISIBLE
         }
@@ -120,10 +139,10 @@ class RegisterFragment : Fragment() {
 
 
     private fun setRegisterButton() {
-        registerViewModel.isRegisterEnabled.observe(viewLifecycleOwner) { isEnabled ->
-            binding.btnRegister.isEnabled = isEnabled
-        }
         binding.btnRegister.setOnClickListener {
+            registerViewModel.setName(binding.editTextName.text.toString())
+            registerViewModel.setBirthday(binding.editTextBirthday.text.toString())
+            //가입하기(profileimageuri는 사진을 찍어올 때, viewmodel에 저장)
             registerViewModel.registerUser()
         }
     }
@@ -145,5 +164,10 @@ class RegisterFragment : Fragment() {
 
     private fun showSnackbar(message: String) {
         Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
