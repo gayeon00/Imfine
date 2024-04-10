@@ -9,6 +9,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
+import com.bumptech.glide.Glide
+import com.example.imfine.auth.presentation.viewmodel.UserViewModel
 import com.example.imfine.databinding.FragmentTodoListBinding
 import com.example.imfine.todolist.presentation.adapter.BorderItemDecoration
 import com.example.imfine.todolist.presentation.adapter.TodoListAdapter
@@ -39,6 +41,16 @@ class TodoListFragment : Fragment() {
         setTodoList()
         observeTodoList()
         setAddButton()
+        setProfileImage()
+    }
+
+    private fun setProfileImage() {
+        todoListViewModel.user.observe(viewLifecycleOwner) {
+            Glide.with(binding.ivTodolistProfileImage.context)
+                .load(it.profileUri)
+                .circleCrop()
+                .into(binding.ivTodolistProfileImage)
+        }
     }
 
     private fun setTodoList() {
@@ -82,5 +94,10 @@ class TodoListFragment : Fragment() {
                 binding.todoList.visibility = View.INVISIBLE
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

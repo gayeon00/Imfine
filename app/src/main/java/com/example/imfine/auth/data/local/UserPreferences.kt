@@ -23,7 +23,7 @@ class UserPreferences @Inject constructor(context: Context) {
             val name = preferences[KEY_NAME]
             val birthday = preferences[KEY_BIRTHDAY]
             if (profileUri != null && name != null && birthday != null) {
-                User(profileUri, name, birthday)
+                User(name, birthday, profileUri)
             } else {
                 null
             }

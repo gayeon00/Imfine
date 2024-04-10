@@ -5,27 +5,23 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.imfine.auth.data.local.UserPreferences
+import com.example.imfine.auth.data.model.User
 import com.example.imfine.todolist.data.model.Todo
 import com.example.imfine.todolist.domain.TodoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class TodoListViewModel @Inject constructor(
-    private val todoRepository: TodoRepository
+    private val todoRepository: TodoRepository,
+    private val userReferences: UserPreferences
 ): ViewModel() {
-    fun editTodo(item: Todo?) {
-        Log.d("swipe edit", "$item")
-    }
-
-    fun completeTodo(item: Todo) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val todo = Todo(item.id, item.task, item.dateTime, true)
-            todoRepository.updateTodo(todo)
-        }
-    }
+    private val _user = MutableLiveData<User>()
+    val user: LiveData<User> = _user
 
     private val _todoList = MutableLiveData<List<Todo>>()
     val todoList : LiveData<List<Todo>> = _todoList
@@ -36,6 +32,19 @@ class TodoListViewModel @Inject constructor(
                 _todoList.postValue(it)
             }
         }
+
+        viewModelScope.launch {
+             userReferences.user.collect {
+                 Log.d("user", it.toString())
+                _user.postValue(it)
+            }
+        }
     }
 
+    fun completeTodo(item: Todo) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val todo = Todo(item.id, item.task, item.dateTime, true)
+            todoRepository.updateTodo(todo)
+        }
+    }
 }
