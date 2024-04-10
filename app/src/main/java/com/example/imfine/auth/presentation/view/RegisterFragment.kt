@@ -1,5 +1,8 @@
 package com.example.imfine.auth.presentation.view
 
+import android.graphics.ColorMatrix
+import android.graphics.ColorMatrixColorFilter
+import android.graphics.Matrix
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -7,8 +10,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.activity.result.PickVisualMediaRequest
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -28,13 +29,6 @@ class RegisterFragment : Fragment() {
     private val binding get() = _binding!!
     private val registerViewModel: RegisterViewModel by activityViewModels()
     private val userViewModel: UserViewModel by viewModels()
-
-    private val galleryLauncher =
-        registerForActivityResult(ActivityResultContracts.PickVisualMedia()) {
-            registerViewModel.run {
-                validateUri(it)
-            }
-        }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -104,7 +98,7 @@ class RegisterFragment : Fragment() {
 
     private fun setProfileImageButton() {
         binding.btnProfileImage.setOnClickListener {
-            openGalleryForImage()
+            startCamera()
         }
 
         //선택된 사진 uri 관찰하여 imagebutton에 넣어줌
@@ -146,8 +140,8 @@ class RegisterFragment : Fragment() {
         })
     }
 
-    private fun openGalleryForImage() =
-        galleryLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+    private fun startCamera() =
+        findNavController().navigate(R.id.action_registerFragment_to_cameraFragment)
 
     private fun showSnackbar(message: String) {
         Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show()
