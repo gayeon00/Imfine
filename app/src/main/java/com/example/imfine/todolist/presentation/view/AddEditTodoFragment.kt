@@ -31,7 +31,6 @@ class AddEditTodoFragment : Fragment() {
     private val binding get() = _binding!!
     private val addEditTodoViewModel: AddEditTodoViewModel by activityViewModels()
     private val args: AddEditTodoFragmentArgs by navArgs()
-    private val formatter = DateTimeFormatter.ofPattern("yyyy MM/dd hh:mm a", Locale.ENGLISH)
 
     private var selectedDate: Long? = null
     private var selectedTime: Long? = null

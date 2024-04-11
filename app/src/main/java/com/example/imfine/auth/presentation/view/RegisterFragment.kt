@@ -1,13 +1,9 @@
 package com.example.imfine.auth.presentation.view
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -66,14 +62,14 @@ class RegisterFragment : Fragment() {
                     is Response.Success -> {
                         // 저장 성공 처리
                         // 사용자에게 완료 여부 표시
-                        showSnackbar("Register Succeed")
+                        showSnackBar("Register Succeed")
                         findNavController().navigate(R.id.action_registerFragment_to_registerCompleteFragment)
                     }
 
                     is Response.Error -> {
                         // 저장 실패 처리
                         // 에러 메시지를 사용자에게 표시
-                        showSnackbar("Register Failed: User already exists.")
+                        showSnackBar("Register Failed: User already exists.")
                     }
                 }
             }
@@ -137,7 +133,7 @@ class RegisterFragment : Fragment() {
             registerViewModel.setName(text)
         }
 
-        // 이름과 생일 입력 필드의 유효성 검사 결과 관찰
+        // 이름 입력 필드의 유효성 검사 결과 관찰
         registerViewModel.nameError.observe(viewLifecycleOwner) { error ->
             binding.layoutTextName.error = error
         }
@@ -178,7 +174,7 @@ class RegisterFragment : Fragment() {
     private fun startCamera() =
         findNavController().navigate(R.id.action_registerFragment_to_cameraFragment)
 
-    private fun showSnackbar(message: String) {
+    private fun showSnackBar(message: String) {
         Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show()
     }
 
