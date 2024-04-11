@@ -1,8 +1,8 @@
 package com.example.imfine.todolist.presentation.view
 
 import android.content.res.ColorStateList
-import android.graphics.ColorFilter
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +24,7 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Locale
+import java.util.TimeZone
 
 @AndroidEntryPoint
 class AddEditTodoFragment : Fragment() {
@@ -151,9 +152,9 @@ class AddEditTodoFragment : Fragment() {
         selectedTime = (hour * 60 * 60 * 1000 + minute * 60 * 1000).toLong()
 
         // 선택된 날짜와 시간을 이용하여 EditText에 텍스트를 설정
-        //selectedDate가 오전 9시로 기본 설정돼있기 때문에 그만큼 빼준다.
-        val nineAMToMilli = 9 * 60 * 60 * 1000
-        val localDate = Instant.ofEpochMilli(selectedDate!! + selectedTime!! - nineAMToMilli)
+        val offset = TimeZone.getTimeZone(ZoneId.systemDefault()).rawOffset
+        //Epoch Time은 1970년 1월 1일 00:00:00 UTC 기준이라 offset을 빼서 보정해준다.
+        val localDate = Instant.ofEpochMilli(selectedDate!! + selectedTime!! - offset)
             .atZone(ZoneId.systemDefault())
             .toLocalDateTime()
 

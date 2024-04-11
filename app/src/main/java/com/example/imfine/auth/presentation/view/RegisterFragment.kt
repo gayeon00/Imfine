@@ -21,6 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.util.TimeZone
 
 @AndroidEntryPoint
 class RegisterFragment : Fragment() {
@@ -79,7 +80,7 @@ class RegisterFragment : Fragment() {
 
     private fun setBirthdayEditText() {
         binding.editTextBirthday.setOnClickListener {
-            if(!isDatePickerShowing) {
+            if (!isDatePickerShowing) {
                 showDatePicker()
             }
 
@@ -100,10 +101,11 @@ class RegisterFragment : Fragment() {
                 .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
                 .build()
 
-        datePicker.run{
+        datePicker.run {
             addOnPositiveButtonClickListener {
+                val offset = TimeZone.getTimeZone(ZoneId.systemDefault()).rawOffset
                 //millis to localdate
-                val localDate = Instant.ofEpochMilli(it)
+                val localDate = Instant.ofEpochMilli(it - offset)
                     .atZone(ZoneId.systemDefault())
                     .toLocalDateTime()
                 binding.editTextBirthday.setText(localDate.format(formatter))
