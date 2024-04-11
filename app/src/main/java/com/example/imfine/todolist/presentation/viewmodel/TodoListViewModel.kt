@@ -35,7 +35,6 @@ class TodoListViewModel @Inject constructor(
 
         viewModelScope.launch {
              userReferences.user.collect {
-                 Log.d("user", it.toString())
                 _user.postValue(it)
             }
         }

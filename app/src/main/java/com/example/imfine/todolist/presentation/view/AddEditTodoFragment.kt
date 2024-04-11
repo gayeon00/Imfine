@@ -39,7 +39,7 @@ class AddEditTodoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        clearTaskDate()
+
         addOrEdit()
 
         //task edittext
@@ -88,6 +88,7 @@ class AddEditTodoFragment : Fragment() {
             //추가 화면
             binding.pageTitle.setText(R.string.label_add_task)
             binding.btnAddEdit.setText(R.string.label_add)
+            clearTaskDate()
         } else {
             //편집 화면
             binding.pageTitle.setText(R.string.label_edit_task)
@@ -117,6 +118,9 @@ class AddEditTodoFragment : Fragment() {
 
     private fun observeOriginalTodo() {
         addEditTodoViewModel.todo.observe(viewLifecycleOwner) {
+            addEditTodoViewModel.setTask(it.task)
+            addEditTodoViewModel.setDateTime(it.dateTime)
+
             binding.editTextTask.setText(it.task)
             binding.editTextDate.setText(it.dateTime.format(formatter))
         }

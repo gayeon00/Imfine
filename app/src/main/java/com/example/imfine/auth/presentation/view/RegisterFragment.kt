@@ -99,7 +99,6 @@ class RegisterFragment : Fragment() {
 
 
         registerViewModel.birthdayError.observe(viewLifecycleOwner) { error ->
-            Log.d("RegisterFragment", error.toString())
             binding.layoutTextBirthday.error = error
         }
     }
