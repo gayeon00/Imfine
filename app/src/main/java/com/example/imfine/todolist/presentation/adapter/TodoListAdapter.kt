@@ -14,6 +14,7 @@ import com.example.imfine.databinding.ItemTodoBinding
 import com.example.imfine.todolist.data.model.Todo
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 class TodoListAdapter() :
     ListAdapter<Todo, TodoListAdapter.TodoViewHolder>(TodoDiffCallBack()) {
@@ -28,7 +29,7 @@ class TodoListAdapter() :
         }
 
         private fun formatLocalDateTime(localDateTime: LocalDateTime): String {
-            val formatter = DateTimeFormatter.ofPattern("yy'’' M/dd h:mm a")
+            val formatter = DateTimeFormatter.ofPattern("yy'’' M/dd h:mm a", Locale.ENGLISH)
             return localDateTime.format(formatter)
         }
     }

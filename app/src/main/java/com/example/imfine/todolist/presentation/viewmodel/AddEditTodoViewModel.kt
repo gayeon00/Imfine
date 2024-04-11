@@ -55,7 +55,7 @@ class AddEditTodoViewModel @Inject constructor(
     }
 
     private fun isDateTimeValid() {
-        if (_dateTime.value == null) {
+        if (dateTime.value == null) {
             _dateTimeError.value = "Please select a date and time."
         } else {
             _dateTimeError.value = null
@@ -63,38 +63,33 @@ class AddEditTodoViewModel @Inject constructor(
     }
 
     private fun isTaskValid() {
-        if (_task.value!!.isBlank()) {
+        if (task.value!!.isBlank()) {
             _taskError.value = "Please enter a task."
+        } else if (!task.value!!.matches(Regex("^[a-zA-Z]+\$"))) {
+            _taskError.value = "Invalid name. Only letters are allowed."
         } else {
             _taskError.value = null
         }
     }
 
-//    fun validateTask(text: String) {
-//        _task.value = text
-//        _taskError.value =
-//            if (text.isNotEmpty()) null
-//            else "Please enter a task."
-//    }
-//
-//    fun validateDateTime(dateTime: LocalDateTime?) {
-//        this._dateTime.value = dateTime
-//        _dateTimeError.value =
-//            if (dateTime != null) null
-//            else "Please select a date and time."
-//    }
-
     fun addTodo(onAdded: () -> Unit) {
 
+        //task, datetime이 유효성 검사에 만족하는지 확인하고
+        //만족하지 않는다면 에러 메세지 띄워주기
         isTaskValid()
         isDateTimeValid()
 
-        if (_taskError.value == null && _dateTimeError.value == null) {
+        if (taskError.value == null && dateTimeError.value == null) {
 
-            val todo =
-                Todo(task = _task.value!!, dateTime = _dateTime.value!!, isCompleted = false)
+            val todo = Todo(
+                task = task.value!!,
+                dateTime = dateTime.value!!,
+                isCompleted = false)
+
             viewModelScope.launch(Dispatchers.IO) {
+
                 todoRepository.insertTodo(todo)
+
                 withContext(Dispatchers.Main) {
                     onAdded()
                 }
@@ -107,17 +102,19 @@ class AddEditTodoViewModel @Inject constructor(
         isTaskValid()
         isDateTimeValid()
 
-        if (_taskError.value == null && _dateTimeError.value == null) {
+        if (taskError.value == null && dateTimeError.value == null) {
 
             val newTodo = Todo(
                 id = todo.value!!.id,
-                task = _task.value!!,
-                dateTime = _dateTime.value!!,
+                task = task.value!!,
+                dateTime = dateTime.value!!,
                 isCompleted = todo.value!!.isCompleted
             )
 
             viewModelScope.launch(Dispatchers.IO) {
+
                 todoRepository.updateTodo(newTodo)
+
                 withContext(Dispatchers.Main) {
                     onUpdated()
                 }

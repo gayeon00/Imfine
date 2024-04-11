@@ -42,9 +42,9 @@ class RegisterViewModel @Inject constructor(
     }
 
     private fun isNameValid() {
-        if (_name.value!!.isBlank()) {
+        if (name.value!!.isBlank()) {
             _nameError.value = "Please enter your name."
-        } else if (!_name.value!!.matches(Regex("^[a-zA-Z]+\$"))) {
+        } else if (!name.value!!.matches(Regex("^[a-zA-Z]+\$"))) {
             _nameError.value = "Invalid name. Only letters are allowed."
         } else {
             _nameError.value = null
@@ -57,7 +57,7 @@ class RegisterViewModel @Inject constructor(
     }
 
     private fun isBirthdayValid() {
-        if (_birthday.value!!.isBlank()) {
+        if (birthday.value!!.isBlank()) {
             _birthdayError.value = "Please select a birthday."
         } else {
             _birthdayError.value = null
@@ -70,45 +70,12 @@ class RegisterViewModel @Inject constructor(
     }
 
     private fun isUriValid() {
-        if (_profileImageUri.value == null) {
+        if (profileImageUri.value == null) {
             _profileImageUriError.value = "Please take a profile image."
         } else {
             _profileImageUriError.value = null
         }
     }
-
-//    // '가입하기' 버튼 활성화 상태 관리
-//    val isRegisterEnabled = MediatorLiveData<Boolean>().apply {
-//        // 입력 필드의 에러 메시지 LiveData를 소스로 추가
-//        addSource(_nameError) { validateForm() }
-//        addSource(_birthdayError) { validateForm() }
-//        addSource(_profileImageUriError) { validateForm() }
-//    }
-//
-//    private fun validateForm() {
-//        // 모든 입력 필드가 유효할 때만 '가입하기' 버튼을 활성화
-//        isRegisterEnabled.value =
-//            listOf(_nameError, _birthdayError, _profileImageUriError).all { it.value == null }
-//    }
-
-//    fun validateName(text: String) {
-//        _name.value = text
-//        _nameError.value = if (name.value?.matches(Regex("^[a-zA-Z]+\$")) == true) null
-//        else "Invalid name. Only letters are allowed."
-//    }
-
-//    fun validateBirthday(dateTime: String) {
-//        _birthday.value = dateTime
-//        _birthdayError.value =
-//            if (birthday.value != null) null
-//            else "Please select a birthday."
-//    }
-//
-//    fun validateUri(uri: Uri?) {
-//        this._profileImageUri.value = uri
-//        _profileImageUriError.value =
-//            if (this.profileImageUri.value != null) null else "Please select a profile image."
-//    }
 
     fun registerUser() {
         viewModelScope.launch {
@@ -116,7 +83,7 @@ class RegisterViewModel @Inject constructor(
             isBirthdayValid()
             isUriValid()
 
-            if (_nameError.value == null && _birthdayError.value == null && _profileImageUriError.value == null) {
+            if (nameError.value == null && birthdayError.value == null && profileImageUriError.value == null) {
                 //유효성 검사에 통과하면 가입시키기
                 val response =
                     registerRepository.registerUser(

@@ -2,9 +2,10 @@ package com.example.imfine.util
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.AttributeSet
-import android.util.Log
+import android.widget.TextView
 import androidx.appcompat.widget.AppCompatTextView
 import com.example.imfine.R
 
@@ -41,7 +42,7 @@ class EllipsizeTextView : AppCompatTextView {
                     color = resources.getColor(R.color.textColorPrimary)
                 }
 
-                // 말줄임표를 추가한 텍스트를 다시 그립니다.
+                // 말줄임표를 추가한 텍스트를 다시 그림
                 canvas.drawText(
                     text,
                     paddingLeft.toFloat(),
@@ -56,4 +57,15 @@ class EllipsizeTextView : AppCompatTextView {
         }
 
     }
+}
+
+fun TextView.doOnTextChanged(onTextChanged: (String) -> Unit) {
+    this.addTextChangedListener(object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            onTextChanged(s.toString())
+        }
+
+        override fun afterTextChanged(s: Editable?) {}
+    })
 }

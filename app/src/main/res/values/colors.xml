@@ -6,4 +6,5 @@
     <color name="colorHint">#BDBDBD</color>
     <color name="textColorPrimary">#7E7E7E</color>
     <color name="itemBorder">#D8D8D8</color>
+    <color name="colorError">#ffb3261e</color>
 </resources>

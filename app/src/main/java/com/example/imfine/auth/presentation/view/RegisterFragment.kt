@@ -18,6 +18,7 @@ import com.example.imfine.auth.data.model.Response
 import com.example.imfine.auth.presentation.viewmodel.RegisterViewModel
 import com.example.imfine.auth.presentation.viewmodel.UserViewModel
 import com.example.imfine.databinding.FragmentRegisterBinding
+import com.example.imfine.util.doOnTextChanged
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,6 +34,9 @@ class RegisterFragment : Fragment() {
     private val userViewModel: UserViewModel by viewModels()
 
     private val formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
+
+    //datepicker가 보이는지 여부
+    private var isDatePickerShowing = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -78,6 +82,20 @@ class RegisterFragment : Fragment() {
     }
 
     private fun setBirthdayEditText() {
+        binding.editTextBirthday.setOnClickListener {
+            if(!isDatePickerShowing) {
+                showDatePicker()
+            }
+
+        }
+
+        registerViewModel.birthdayError.observe(viewLifecycleOwner) { error ->
+            binding.layoutTextBirthday.error = error
+        }
+    }
+
+    private fun showDatePicker() {
+        isDatePickerShowing = true
         val datePicker =
             MaterialDatePicker.Builder.datePicker()
                 .setPositiveButtonText("OK")
@@ -86,21 +104,32 @@ class RegisterFragment : Fragment() {
                 .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
                 .build()
 
-        datePicker.addOnPositiveButtonClickListener {
-            val localDate = //millis to localdate
-                Instant.ofEpochMilli(it).atZone(ZoneId.systemDefault()).toLocalDateTime()
-            binding.editTextBirthday.setText(localDate.format(formatter))
-            registerViewModel.setBirthday(binding.editTextBirthday.text.toString())
+        datePicker.run{
+            addOnPositiveButtonClickListener {
+                //millis to localdate
+                val localDate = Instant.ofEpochMilli(it)
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDateTime()
+                binding.editTextBirthday.setText(localDate.format(formatter))
+                registerViewModel.setBirthday(binding.editTextBirthday.text.toString())
+                isDatePickerShowing = false
+            }
+
+            addOnNegativeButtonClickListener {
+                isDatePickerShowing = false
+            }
+
+            addOnCancelListener {
+                isDatePickerShowing = false
+            }
+
+            addOnDismissListener {
+                isDatePickerShowing = false
+            }
         }
 
-        binding.editTextBirthday.setOnClickListener {
-            datePicker.show(getParentFragmentManager(), "RegisterFragment")
-        }
+        datePicker.show(getParentFragmentManager(), datePicker.toString())
 
-
-        registerViewModel.birthdayError.observe(viewLifecycleOwner) { error ->
-            binding.layoutTextBirthday.error = error
-        }
     }
 
     private fun setNameEditText() {
@@ -144,18 +173,6 @@ class RegisterFragment : Fragment() {
             //가입하기(profileimageuri는 사진을 찍어올 때, viewmodel에 저장)
             registerViewModel.registerUser()
         }
-    }
-
-
-    private fun TextView.doOnTextChanged(onTextChanged: (String) -> Unit) {
-        this.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                onTextChanged(s.toString())
-            }
-
-            override fun afterTextChanged(s: Editable?) {}
-        })
     }
 
     private fun startCamera() =
