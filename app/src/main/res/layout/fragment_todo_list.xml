@@ -9,6 +9,7 @@
     android:paddingTop="35dp"
     tools:context=".todolist.presentation.view.TodoListFragment">
 
+
     <LinearLayout
         android:id="@+id/linear_layout_title"
         android:layout_width="match_parent"
@@ -62,13 +63,15 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/todo_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="20dp"
+        android:nestedScrollingEnabled="true"
         android:padding="3dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linear_layout_title"
+        app:layout_constraintBottom_toBottomOf="parent"
         tools:listitem="@layout/item_todo">
 
     </androidx.recyclerview.widget.RecyclerView>

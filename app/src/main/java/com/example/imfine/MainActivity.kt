@@ -11,9 +11,5 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val locale = Locale.ENGLISH
-        Locale.setDefault(locale)
-        resources.configuration.setLocale(locale)
-
     }
 }

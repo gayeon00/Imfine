@@ -79,6 +79,15 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.51.1")
     kapt("com.google.dagger:hilt-android-compiler:2.51.1")
 
+    //CameraX
+    // The following line is optional, as the core library is included indirectly by camera-camera2
+    implementation("androidx.camera:camera-core:1.4.0-alpha04")
+    implementation("androidx.camera:camera-camera2:1.4.0-alpha04")
+    // If you want to additionally use the CameraX Lifecycle library
+    implementation("androidx.camera:camera-lifecycle:1.4.0-alpha04")
+    // If you want to additionally use the CameraX View class
+    implementation("androidx.camera:camera-view:1.4.0-alpha04")
+
 }
 
 // Allow references to generated code

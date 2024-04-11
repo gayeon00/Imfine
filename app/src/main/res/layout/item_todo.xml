@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
 
-    <TextView
+    <com.example.imfine.util.EllipsizeTextView
         android:id="@+id/tv_item_todo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -15,13 +15,13 @@
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="25dp"
         android:ellipsize="end"
-        android:singleLine="true"
+        android:lines="1"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/tv_item_todo_time"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Meeting with Anna" />
+        tools:text="dfdddddddddd fffffffffffffffffffffffff" />
 
     <TextView
         android:id="@+id/tv_item_todo_time"

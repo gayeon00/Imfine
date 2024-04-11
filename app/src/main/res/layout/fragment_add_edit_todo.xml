@@ -47,40 +47,86 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_text_date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="75dp"
         android:layout_marginTop="20dp"
-        android:hint="@string/label_date"
-        android:textColorHint="@color/colorHint"
-        app:boxStrokeWidth="3dp"
+        android:background="@drawable/outlined_round_shape"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layout_text_task"
-        app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Full">
+        app:layout_constraintTop_toBottomOf="@+id/layout_text_task">
 
-        <EditText
-            android:id="@+id/edit_text_date"
-            style="@style/Widget.Material3.TextInputEditText.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="75dp"
-            android:ems="10"
-            android:inputType="datetime"
-            android:paddingStart="38dp"
-            android:paddingLeft="38dp"
-            android:paddingEnd="38dp"
-            android:paddingRight="38dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+        <TextView
+            android:id="@+id/tv_year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tv_month_day"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="2022" />
 
-    </com.google.android.material.textfield.TextInputLayout>
+        <TextView
+            android:id="@+id/tv_month_day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tv_time"
+            app:layout_constraintStart_toEndOf="@+id/tv_year"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="4/3" />
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_month_day"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="09:00 AM" />
+
+        <TextView
+            android:id="@+id/tv_date_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="38dp"
+            android:text="@string/label_date"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/colorHint"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tv_error_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="38dp"
+        android:layout_marginTop="5dp"
+        android:letterSpacing="0.03"
+        android:textColor="#ffb3261e"
+        android:textSize="12sp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="@+id/layout_text_date"
+        app:layout_constraintTop_toBottomOf="@+id/layout_text_date"
+        tools:text="사진을 등록하세요" />
 
     <Button
         android:id="@+id/btn_add_edit"
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:layout_marginBottom="30dp"
-        android:enabled="false"
         android:text="@string/label_add"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintBottom_toBottomOf="parent"

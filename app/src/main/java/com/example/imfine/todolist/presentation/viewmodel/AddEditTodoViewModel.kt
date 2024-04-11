@@ -1,7 +1,6 @@
 package com.example.imfine.todolist.presentation.viewmodel
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,6 +9,7 @@ import com.example.imfine.todolist.domain.TodoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.time.LocalDateTime
 import javax.inject.Inject
 
@@ -21,55 +21,104 @@ class AddEditTodoViewModel @Inject constructor(
     private val _todo = MutableLiveData<Todo>()
     val todo: LiveData<Todo> = _todo
 
-    val task = MutableLiveData<String>()
-    val dateTime = MutableLiveData<LocalDateTime?>()
+    private val _task = MutableLiveData<String>("")
+    val task: LiveData<String> = _task
 
-    val taskError = MutableLiveData<String?>()
-    val dateTimeError = MutableLiveData<String?>()
+    private val _dateTime = MutableLiveData<LocalDateTime?>(null)
+    val dateTime: LiveData<LocalDateTime?> = _dateTime
 
-    // '가입하기' 버튼 활성화 상태 관리
-    val isAddEditEnabled = MediatorLiveData<Boolean>().apply {
-        // 입력 필드의 에러 메시지 LiveData를 소스로 추가
-        addSource(taskError) { validateForm() }
-        addSource(dateTimeError) { validateForm() }
-    }
+    private val _taskError = MutableLiveData<String?>(null)
+    val taskError: LiveData<String?> = _taskError
 
-    private fun validateForm() {
-        // 모든 입력 필드가 유효할 때만 '가입하기' 버튼을 활성화
-        isAddEditEnabled.value =
-            listOf(taskError, dateTimeError).all { it.value == null }
-    }
-
-    fun validateTask(text: String) {
-        task.value = text
-        taskError.value =
-            if (text.isNotEmpty()) null
-            else "Please enter a task."
-    }
-
-    fun validateDateTime(dateTime: LocalDateTime?) {
-        this.dateTime.value = dateTime
-        dateTimeError.value =
-            if (dateTime != null) null
-            else "Please select a date and time."
-    }
-
-    fun addTodo() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val todo = Todo(task = task.value!!, dateTime = dateTime.value!!, isCompleted = false)
-            todoRepository.insertTodo(todo)
-        }
-
-    }
-
-    fun updateTodo() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val newTodo = Todo(id = todo.value!!.id, task = task.value!!, dateTime = dateTime.value!!, isCompleted = todo.value!!.isCompleted)
-            todoRepository.updateTodo(newTodo)
-        }
-    }
+    private val _dateTimeError = MutableLiveData<String?>(null)
+    val dateTimeError: LiveData<String?> = _dateTimeError
 
     fun setTodo(todo: Todo) {
         _todo.value = todo
+    }
+
+    fun setInitialTask(task: String) {
+        _task.value = task
+    }
+
+    fun setInitialDateTime(dt: LocalDateTime?) {
+        _dateTime.value = dt
+    }
+    fun setTask(task: String) {
+        _task.value = task
+        isTaskValid()
+    }
+
+    fun setDateTime(dt: LocalDateTime?) {
+        _dateTime.value = dt
+        isDateTimeValid()
+    }
+
+    private fun isDateTimeValid() {
+        if (dateTime.value == null) {
+            _dateTimeError.value = "Please select a date and time."
+        } else {
+            _dateTimeError.value = null
+        }
+    }
+
+    private fun isTaskValid() {
+        if (task.value!!.isBlank()) {
+            _taskError.value = "Please enter a task."
+        } else if (!task.value!!.matches(Regex("^[a-zA-Z]+\$"))) {
+            _taskError.value = "Invalid name. Only letters are allowed."
+        } else {
+            _taskError.value = null
+        }
+    }
+
+    fun addTodo(onAdded: () -> Unit) {
+
+        //task, datetime이 유효성 검사에 만족하는지 확인하고
+        //만족하지 않는다면 에러 메세지 띄워주기
+        isTaskValid()
+        isDateTimeValid()
+
+        if (taskError.value == null && dateTimeError.value == null) {
+
+            val todo = Todo(
+                task = task.value!!,
+                dateTime = dateTime.value!!,
+                isCompleted = false)
+
+            viewModelScope.launch(Dispatchers.IO) {
+
+                todoRepository.insertTodo(todo)
+
+                withContext(Dispatchers.Main) {
+                    onAdded()
+                }
+            }
+        }
+    }
+
+    fun updateTodo(onUpdated: () -> Unit) {
+
+        isTaskValid()
+        isDateTimeValid()
+
+        if (taskError.value == null && dateTimeError.value == null) {
+
+            val newTodo = Todo(
+                id = todo.value!!.id,
+                task = task.value!!,
+                dateTime = dateTime.value!!,
+                isCompleted = todo.value!!.isCompleted
+            )
+
+            viewModelScope.launch(Dispatchers.IO) {
+
+                todoRepository.updateTodo(newTodo)
+
+                withContext(Dispatchers.Main) {
+                    onUpdated()
+                }
+            }
+        }
     }
 }
